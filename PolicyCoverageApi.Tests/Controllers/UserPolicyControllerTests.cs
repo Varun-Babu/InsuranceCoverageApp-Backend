@@ -40,7 +40,7 @@ namespace PolicyCoverageApi.Tests.Controllers
         #region add Policy No
 
         [Fact]
-        public async Task AddPolicyNumber_ValidData_ReturnsOkResult()
+        public async Task AddPolicyNumber_ShouldReturnOkResult_WhenDataValid()
         {
             // Arrange
             var userId = _fixture.Create<int>();
@@ -72,7 +72,7 @@ namespace PolicyCoverageApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task AddPolicyNumber_InvalidPolicy_ReturnsNotFound()
+        public async Task AddPolicyNumber_ReturnsNotFound_WhenPolicyNoInvalid()
         {
             // Arrange
             var userId = _fixture.Create<int>();
@@ -96,7 +96,7 @@ namespace PolicyCoverageApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task AddPolicyNumber_InvalidPolicyVehicle_ReturnsNotFound()
+        public async Task AddPolicyNumber_ReturnsNotFound_WhenPolicyVehicleInvalid()
         {
             // Arrange
             var userId = _fixture.Create<int>();
@@ -122,7 +122,7 @@ namespace PolicyCoverageApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task AddPolicyNumber_InvalidChassisNumber_ReturnsNotFound()
+        public async Task AddPolicyNumber_ReturnsNotFound_WhenChasisNoInvalid()
         {
             // Arrange
             var userId = _fixture.Create<int>();
@@ -150,7 +150,7 @@ namespace PolicyCoverageApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task AddPolicyNumber_ExceptionThrown_ReturnsBadRequest()
+        public async Task AddPolicyNumber_ReturnsBadRequest_OnException()
         {
             // Arrange
             var userId = _fixture.Create<int>();
@@ -175,10 +175,10 @@ namespace PolicyCoverageApi.Tests.Controllers
 
             #endregion add policy no ends here
 
-            #region get policy numbers test
+        #region get policy numbers test
 
-            [Fact]
-        public async Task GetPolicyNumbers_WithValidUserId_ShouldReturnOkResultWithPolicyNumbers()
+        [Fact]
+        public async Task GetPolicyNumbers_ShouldReturnOkResultWithPolicyNumbers_WhenValidUserId()
         {
             // Arrange
             var userId = _fixture.Create<int>();
@@ -198,12 +198,10 @@ namespace PolicyCoverageApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task GetPolicyNumbers_WithInvalidUserId_ShouldReturnNoContentResult()
+        public async Task GetPolicyNumbers_ShouldReturnNoContentResult_WhenInvalidUserId()
         {
             // Arrange
             var userId = _fixture.Create<int>();
-
-            // Mocking an empty list of UserPolicyList objects to simulate no policy numbers found
             _mockUserPolicy.Setup(x => x.GetAllPolicyNumbersAsync(userId)).ReturnsAsync(new List<UserPolicyList>());
 
             // Act
@@ -217,7 +215,7 @@ namespace PolicyCoverageApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task GetPolicyNumbers_WhenExceptionOccurs_ShouldReturnBadRequestResultWithErrorMessage()
+        public async Task GetPolicyNumbers_ShouldReturnBadRequestResultWithErrorMessage_WhenExceptionOccurs()
         {
             // Arrange
             var userId = _fixture.Create<int>();
@@ -240,14 +238,14 @@ namespace PolicyCoverageApi.Tests.Controllers
 
         #region get coverage by policy no
         [Fact]
-        public async Task GetCoveragesByPolicyNumber_WithValidPolicyNumber_ShouldReturnOkResultWithCoverage()
+        public async Task GetCoveragesByPolicyNumber_ShouldReturnOkResultWithCoverage_WithValidPolicyNumber()
         {
             // Arrange
             var policyNumber = _fixture.Create<long>();
-            var policyId = Guid.NewGuid().ToString(); // Generate a random PolicyId
+            var policyId = Guid.NewGuid().ToString();
             var coverage = _fixture.CreateMany<Coverage>().ToList();
             var policy = _fixture.Create<Policy>();
-            policy.PolicyId = policyId; // Set the PolicyId
+            policy.PolicyId = policyId; 
 
             _mockUserPolicy.Setup(x => x.GetPolicyByPolicyNumberAsync(policyNumber)).ReturnsAsync(policy);
             _mockUserPolicy.Setup(x => x.GetCoverageByPolicyIdAsync(policy.PolicyId)).ReturnsAsync(coverage);
@@ -265,17 +263,16 @@ namespace PolicyCoverageApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task GetCoveragesByPolicyNumber_WithValidPolicyNumberAndInvalidCoverage_ShouldReturnNotFoundResult()
+        public async Task GetCoveragesByPolicyNumber_ShouldReturnNotFoundResult_WithValidPolicyNumberAndInvalidCoverage()
         {
             // Arrange
             var policyNumber = _fixture.Create<long>();
-            var policyId = Guid.NewGuid().ToString(); // Generate a random PolicyId
+            var policyId = Guid.NewGuid().ToString(); 
             var policy = _fixture.Create<Policy>();
-            policy.PolicyId = policyId; // Set the PolicyId
+            policy.PolicyId = policyId; 
 
             _mockUserPolicy.Setup(x => x.GetPolicyByPolicyNumberAsync(policyNumber)).ReturnsAsync(policy);
             _mockUserPolicy.Setup(x => x.GetCoverageByPolicyIdAsync(policy.PolicyId)).ReturnsAsync((List<Coverage>)null);
-            // Simulate coverage not found
 
             // Act
             var result = await _controller.GetCoveragesByPolicyNumber(policyNumber) as NotFoundObjectResult;
@@ -290,7 +287,7 @@ namespace PolicyCoverageApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task GetCoveragesByPolicyNumber_WithInvalidPolicyNumber_ShouldReturnNotFoundResult()
+        public async Task GetCoveragesByPolicyNumber_ShouldReturnNotFoundResult_WhenInvalidPolicyNumber()
         {
             // Arrange
             var policyNumber = _fixture.Create<long>();
@@ -309,7 +306,7 @@ namespace PolicyCoverageApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task GetCoveragesByPolicyNumber_WhenExceptionOccurs_ShouldReturnBadRequestResultWithErrorMessage()
+        public async Task GetCoveragesByPolicyNumber_ShouldReturnBadRequestResultWithErrorMessage_WhenExceptionOccurs()
         {
             // Arrange
             var policyNumber = _fixture.Create<long>();
@@ -333,12 +330,11 @@ namespace PolicyCoverageApi.Tests.Controllers
         #region delete policy no
 
         [Fact]
-        public async Task DeleteForm_PolicyNotFound_ReturnsNotFoundResult()
+        public async Task DeleteForm_ReturnsNotFoundResult__WhenPolicyNotFound_()
         {
             // Arrange
             var policyNo = _fixture.Create<long>();
             _mockUserPolicy.Setup(x => x.GetUserPolicyByPolicyNumberAsync(policyNo)).ReturnsAsync((UserPolicyList)null);
-
 
             // Act
             var result = await _controller.DeleteForm(policyNo) as NotFoundObjectResult;
@@ -352,7 +348,7 @@ namespace PolicyCoverageApi.Tests.Controllers
             _mockUserPolicy.Verify(x => x.DeleteUserPolicyAsync(It.IsAny<UserPolicyList>()), Times.Never);
         }
         [Fact]
-        public async Task DeleteForm_PolicyFound_DeletesSuccessfully_ReturnsOkResult()
+        public async Task DeleteForm_ReturnsOkResult_WhenPolicyFoundAndDeletedSuccessfully()
         {
             // Arrange
             var policyNo = _fixture.Create<long>();
@@ -371,7 +367,7 @@ namespace PolicyCoverageApi.Tests.Controllers
             _mockUserPolicy.Verify(x => x.DeleteUserPolicyAsync(existingPolicy), Times.Once);
         }
         [Fact]
-        public async Task DeleteForm_ExceptionOccurs_ReturnsBadRequestResult()
+        public async Task DeleteForm_ReturnsBadRequestResult_WhenExceptionOccurs()
         {
             // Arrange
             var policyNo = _fixture.Create<long>();
