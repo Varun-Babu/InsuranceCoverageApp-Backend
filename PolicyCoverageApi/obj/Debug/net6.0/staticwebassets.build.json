@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "U1Usc6fNieyYBjpXemqzKz+EDw/HfecTX1tjVkfmqh8=",
+  "Source": "PolicyCoverageApi",
+  "BasePath": "_content/PolicyCoverageApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
