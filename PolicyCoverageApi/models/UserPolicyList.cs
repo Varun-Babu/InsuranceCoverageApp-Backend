@@ -9,7 +9,7 @@ namespace PolicyCoverageApi.models
 
         public int UserId { get; set; }
 
-        public long PolicyNumber { get; set; }
+        public int PolicyNumber { get; set; }
 
         [JsonIgnore]
         public PortalUser? User { get; set; }
