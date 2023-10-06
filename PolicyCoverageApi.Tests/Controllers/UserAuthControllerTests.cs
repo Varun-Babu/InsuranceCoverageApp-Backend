@@ -45,6 +45,12 @@ namespace PolicyCoverageApi.Tests.Controllers
             result.Should().BeOfType<OkObjectResult>();
             var okResult = result.As<OkObjectResult>();
             okResult.Value.Should().BeEquivalentTo(user);
+
+            //verify
+
+            _mockUserAuth.Verify(repo => repo.AuthenticateAsync(It.IsAny<string>(),It.IsAny<string>()), Times.Once);
+
+
         }
 
         [Fact]
@@ -63,6 +69,10 @@ namespace PolicyCoverageApi.Tests.Controllers
             result.Should().BeOfType<BadRequestObjectResult>();
             var badRequestResult = result.As<BadRequestObjectResult>();
             badRequestResult.Value.Should().Be(errorMessage);
+
+            //verify
+            _mockUserAuth.Verify(repo => repo.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+
         }
     }
     }
