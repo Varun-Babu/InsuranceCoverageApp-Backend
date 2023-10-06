@@ -1,9 +1,10 @@
-﻿using PolicyCoverageApi.models;
+﻿using Microsoft.AspNetCore.Mvc;
+using PolicyCoverageApi.models;
 
 namespace PolicyCoverageApi.interfaces
 {
     public interface IUserAuth 
     {
-        Task<PortalUser> AuthenticateAsync(string userName, string password);
+        Task<IActionResult> AuthenticateAsync(string userName, string password);
     }
 }

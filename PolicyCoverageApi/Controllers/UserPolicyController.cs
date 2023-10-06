@@ -38,7 +38,7 @@ namespace PolicyCoverageApi.Controllers
         #region Delete Policy No
 
         [HttpDelete("{policyNo}")]
-        public async Task<IActionResult> DeleteForm([FromRoute] int policyNo)
+        public async Task<IActionResult> DeletePolicyNumber([FromRoute] int policyNo)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace PolicyCoverageApi.Controllers
             try
             {
                 var result = await userPolicy.GetCoveragesByPolicyNumber(policyNumber);
-                return result;
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace PolicyCoverageApi.Controllers
             try
             {
                 var response =  await userPolicy.GetAllPolicyNumbers(userid);
-                return response;
+                return Ok(response);
             }
             catch (Exception ex)
             {

@@ -131,7 +131,7 @@ namespace PolicyCoverageApi.repository
             await userDbContext.userPolicyLists.AddAsync(userPolicyList);
             await userDbContext.SaveChangesAsync();
 
-            return new OkObjectResult(userPolicyList);
+            return new OkObjectResult(new {message ="ok"});
         }
 
         #endregion
@@ -144,10 +144,10 @@ namespace PolicyCoverageApi.repository
 
             if (policyNumbers == null || policyNumbers.Count == 0)
             {
-                return new NoContentResult();
+                return null;
             }
 
-            return new OkObjectResult(policyNumbers);
+            return policyNumbers;
         }
 
         #endregion

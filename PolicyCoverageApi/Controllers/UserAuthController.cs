@@ -9,6 +9,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using PolicyCoverageApi.interfaces;
 using PolicyCoverageApi.repository;
+using MySqlX.XDevAPI.Common;
+using System.Dynamic;
+using System.IO;
+using ZstdSharp.Unsafe;
 
 namespace PolicyCoverageApi.Controllers
 {
@@ -17,31 +21,34 @@ namespace PolicyCoverageApi.Controllers
     public class UserAuthController : ControllerBase
     {
         private readonly IUserAuth _repo;
-        private readonly UserDbContext userDbContext;
 
-        public UserAuthController(IUserAuth userAuth,UserDbContext userDbContext)
+        public UserAuthController(IUserAuth userAuth)
         {
+         
             _repo = userAuth;
-            this.userDbContext = userDbContext;
         }
+
+
         [HttpPost("login")]
         public async Task<IActionResult> Authenticate([FromBody] PortalUser user)
         {
-            if (user == null)
-                return BadRequest();
-
-            var userExist = await _repo.AuthenticateAsync(user.UserName, user.Password);
-
-            if (userExist == null)
+            try
             {
-               
-                return NotFound(new { Message = "User Not Found" });
+                return await _repo.AuthenticateAsync(user.UserName, user.Password);
             }
-            else
+            catch (Exception ex)
             {
-                return Ok(new { message = "login success" });
+                return BadRequest(ex.Message);
             }
+
         }
+   
+
+
+
+
+
+
 
 
     }
