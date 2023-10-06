@@ -43,7 +43,7 @@ namespace PolicyCoverageApi.repository
 
             var coverages = await policyDbContext.Coverages.Where(c => coverageIds.Contains(c.CoverageId)).ToListAsync();
 
-            return new OkObjectResult(coverages);
+            return coverages;
         }
 
 
