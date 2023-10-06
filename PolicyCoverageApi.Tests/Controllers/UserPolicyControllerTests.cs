@@ -45,7 +45,6 @@ namespace PolicyCoverageApi.Tests.Controllers
             // Arrange
             var policyNo = _fixture.Create<int>();
 
-            // Assuming DeleteUserPolicy method returns a success result
             var expectedResult = new OkObjectResult(new { message = "Policy Deleted" });
             _mockUserPolicy.Setup(repo => repo.DeleteUserPolicy(policyNo))
                            .ReturnsAsync(expectedResult);
@@ -67,7 +66,6 @@ namespace PolicyCoverageApi.Tests.Controllers
             // Arrange
             var policyNo = _fixture.Create<int>();
 
-            // Assuming DeleteUserPolicy method throws an exception
             var expectedErrorMessage = "An error occurred while deleting the policy.";
             _mockUserPolicy.Setup(repo => repo.DeleteUserPolicy(policyNo))
                            .ThrowsAsync(new Exception(expectedErrorMessage));
@@ -143,6 +141,9 @@ namespace PolicyCoverageApi.Tests.Controllers
             // Assert
             result.Should().NotBeNull().And.BeOfType<ActionResult<List<UserPolicyList>>>()
        .Which.Result.Should().BeOfType<OkObjectResult>();
+
+            //verify
+            _mockUserPolicy.Verify(repo => repo.GetAllPolicyNumbers(userId), Times.Once);
         }
 
 
